@@ -104,12 +104,12 @@ function gameFinished(player) {
   rollButton.setAttribute('disabled', '');
   holdButton.setAttribute('disabled', '');
 }
-
+// 17- What happens when the reset button is clicked
 newButton.addEventListener('click', () => {
   const activePlayer = document.querySelector('.player--active');
   resetGame(activePlayer);
 });
-
+// 18- specify a function to take the necessary steps in order to reset the game
 function resetGame(player) {
   sumScore0 = 0;
   sumScore1 = 0;
