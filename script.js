@@ -123,10 +123,9 @@ newButton.addEventListener('click', () => {
     player.querySelector('.current-score').textContent = currentScore;
     sumScore0 = 0;
     sumScore1 = 0;
-    const resetSumScore = 0;
     const scoreElement = document.querySelectorAll('.score');
     for (const value of scoreElement) {
-      value.textContent = resetSumScore;
+      value.textContent = 0;
     }
     player.classList.remove('player--winner');
     rollButton.removeAttribute('disabled');
