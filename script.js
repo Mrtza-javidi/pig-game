@@ -39,27 +39,32 @@ rollButton.addEventListener('click', () => {
       playerRight(player1, diceNumber);
     }
   }
+
+  // 5- sum the numbers of dice numbers together and show it in current score element, then show it in an argument's current score element that when the dice roolling happens, keeps the current player
+  function currentScoreSum(player, randomNumber) {
+    currentScore = currentScore + randomNumber;
+    player.querySelector('.current-score').textContent = currentScore;
+  }
+
+  // 6- specify two functions in order to use as each player
+  function playerLeft(player, randomNumber) {
+    // 7- calling the current score sum function
+    currentScoreSum(player, randomNumber);
+  }
+
+  // 6- specify two functions in order to use as each player
+  function playerRight(player, randomNumber) {
+    // 7- calling the current score sum function
+    currentScoreSum(player, randomNumber);
+  }
+
+  // 10- specify a function in which, when the roll is equaled to 1, the number '0' gets assigned to the current score and it gets shown
+  function rollEqualToOne(player) {
+    currentScore = 0;
+    player.querySelector('.current-score').textContent = currentScore;
+  }
 });
-// 5- sum the numbers of dice numbers together and show it in current score element, then show it in an argument's current score element that when the dice roolling happens, keeps the current player
-function currentScoreSum(player, randomNumber) {
-  currentScore = currentScore + randomNumber;
-  player.querySelector('.current-score').textContent = currentScore;
-}
-// 6- specify two functions in order to use as each player
-function playerLeft(player, randomNumber) {
-  // 7- calling the current score sum function
-  currentScoreSum(player, randomNumber);
-}
-// 6- specify two functions in order to use as each player
-function playerRight(player, randomNumber) {
-  // 7- calling the current score sum function
-  currentScoreSum(player, randomNumber);
-}
-// 10- specify a function in which, when the roll is equaled to 1, the number '0' gets assigned to the current score and it gets shown
-function rollEqualToOne(player) {
-  currentScore = 0;
-  player.querySelector('.current-score').textContent = currentScore;
-}
+
 // 11- specify a function that takes two arguments that are going to get assigned to players 0 and 1 in order to add the class 'player--active' to one (the active one) and remove the class from the other
 function togglePlayerActiveClass(pl0, pl1) {
   pl0.classList.remove('player--active');
@@ -88,38 +93,44 @@ holdButton.addEventListener('click', () => {
       togglePlayerActiveClass(player1, player0);
     }
   }
+
+  // 12- hold the sum of the scores of the relevant player's sum score variable and show it in its score element. Then make the current score to 0 in order to reset it. This function should contains to arguments: one for getting the player who is going to these changes get assigned to, and the another for getting the sum score related to that player and it's all because we have two players and two sum scores related to each player
+  function numbersHolder(player, sumScore) {
+    sumScore = sumScore + currentScore;
+    player.querySelector('.score').textContent = sumScore;
+    currentScore = 0;
+    player.querySelector('.current-score').textContent = currentScore;
+    // returning the value is essential because sumScore is an argument not a global variable, and it is a number that is known as a primitive data type. Remember all primitive data types need to be returned to be assigned to an external variable (number, NaN, string, undefined, bullean, null, symbol). The opposite, is the reference data types that don't need to be returned (array, object, function, date)
+    return sumScore;
+  }
+
+  // 16- specify a function that add the class 'player--winner' to the winner player
+  function gameFinished(player) {
+    player.classList.add('player--winner');
+    rollButton.setAttribute('disabled', '');
+    holdButton.setAttribute('disabled', '');
+  }
 });
-// 12- hold the sum of the scores of the relevant player's sum score variable and show it in its score element. Then make the current score to 0 in order to reset it. This function should contains to arguments: one for getting the player who is going to these changes get assigned to, and the another for getting the sum score related to that player and it's all because we have two players and two sum scores related to each player
-function numbersHolder(player, sumScore) {
-  sumScore = sumScore + currentScore;
-  player.querySelector('.score').textContent = sumScore;
-  currentScore = 0;
-  player.querySelector('.current-score').textContent = currentScore;
-  // returning the value is essential because sumScore is an argument not a global variable, and it is a number that is known as a primitive data type. Remember all primitive data types need to be returned to be assigned to an external variable (number, NaN, string, undefined, bullean, null, symbol). The opposite, is the reference data types that don't need to be returned (array, object, function, date)
-  return sumScore;
-}
-// 16- specify a function that add the class 'player--winner' to the winner player
-function gameFinished(player) {
-  player.classList.add('player--winner');
-  rollButton.setAttribute('disabled', '');
-  holdButton.setAttribute('disabled', '');
-}
+
 // 17- What happens when the reset button is clicked
 newButton.addEventListener('click', () => {
   const activePlayer = document.querySelector('.player--active');
   resetGame(activePlayer);
-});
-// 18- specify a function to take the necessary steps in order to reset the game
-function resetGame(player) {
-  sumScore0 = 0;
-  sumScore1 = 0;
-  const resetSumScore = 0;
-  const scoreElement = document.querySelectorAll('.score');
-  for (let i = 0; i < scoreElement.length; i++) {
-    scoreElement[i].textContent = resetSumScore;
+
+  // 18- specify a function to take the necessary steps in order to reset the game
+  function resetGame(player) {
+    currentScore = 0;
+    player.querySelector('.current-score').textContent = currentScore;
+    sumScore0 = 0;
+    sumScore1 = 0;
+    const resetSumScore = 0;
+    const scoreElement = document.querySelectorAll('.score');
+    for (const value of scoreElement) {
+      value.textContent = resetSumScore;
+    }
+    player.classList.remove('player--winner');
+    rollButton.removeAttribute('disabled');
+    holdButton.removeAttribute('disabled');
+    togglePlayerActiveClass(player, player0);
   }
-  player.classList.remove('player--winner');
-  rollButton.removeAttribute('disabled');
-  holdButton.removeAttribute('disabled');
-  togglePlayerActiveClass(player, player0);
-}
+});
